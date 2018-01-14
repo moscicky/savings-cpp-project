@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include "../assets/Asset.h"
+#include "loader/WalletLoader.h"
 
 using namespace std;
 
@@ -63,10 +64,44 @@ public:
         assets.push_back(t);
     }
 
+    void loadAsset(T *t){
+        assets.push_back(t);
+    }
+
     void save(ofstream & sv){
+        cout<<"zapisuje"<<endl;
+        sv.open("wallet.txt", ios::trunc | ios::in | ios::out);
         for(int i = 0; i < assets.size(); i++){
             assets[i]->save(sv);
         }
+        sv.close();
+    }
+
+    void load(ifstream & ld){
+        WalletLoader walletLoader;
+        string assetName;
+        while(!ld.eof()){
+            ld>>assetName;
+            if(assetName == "Contract"){
+                loadAsset(walletLoader.loadContract(ld));
+            }
+            else if(assetName == "Crypto"){
+                loadAsset(walletLoader.loadCrypto(ld));
+            }
+            else if(assetName == "FundUnit"){
+                loadAsset(walletLoader.loadFundUnit(ld));
+            }
+            else if(assetName == "FundUnitDividend"){
+                loadAsset(walletLoader.loadFundUnitDividend(ld));
+            }
+            else if(assetName == "Investment"){
+                loadAsset(walletLoader.loadInvestment(ld));
+            }
+            else if(assetName == "PropertyRental"){
+                loadAsset(walletLoader.loadPropertyRental(ld));
+            }
+        }
+        removeAsset(assets.size() - 1);
     }
 
     void removeAsset(int index){

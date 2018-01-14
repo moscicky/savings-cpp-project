@@ -11,6 +11,7 @@
 class FundUnitDividend : public FundUnit{
 public:
     FundUnitDividend();
+    FundUnitDividend(string &name, double baseValue, int dividendFreq);
 private:
     double dividendValue;
     int dividendFrequency;

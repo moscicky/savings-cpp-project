@@ -54,3 +54,7 @@ void FundUnitDividend::save(ofstream &save) {
     save<<"FundUnitDividend"<<endl;
     save<<getName()<<" "<<getBaseValue()<<" "<<getDividendFrequency()<<" "<<getAmount()<<endl;
 }
+
+FundUnitDividend::FundUnitDividend(string &name, double baseValue, int dividendFreq) : FundUnit(name, baseValue){
+    setDividendFrequency(dividendFreq);
+}

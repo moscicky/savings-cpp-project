@@ -1,9 +1,6 @@
 #include <iostream>
 #include "assets/investment/Investment.h"
-#include "forms/Forms.h"
 #include "wallet/Wallet.cpp"
-#include "assets/fundUnits/FundUnit.h"
-#include "assets/fundUnits/fundUnitDividend/FundUnitDividend.h"
 #include<fstream>
 
 using namespace std;
@@ -145,13 +142,19 @@ void displayMainMenu(Wallet<Asset> & wallet, ofstream & sv){
 }
 
 int main(int argc, const char * argv[]) {
+    ifstream read;
+    read.open("wallet.txt");
     ofstream write;
-    write.open("wallets.txt", ios::trunc | ios::in | ios::out);
-    write<<"chuj";
     auto *wallet = new Wallet<Asset>();
+    if(read.peek() == ifstream::traits_type::eof()){
+        cout<<"pusty plik portfela"<<endl;
+    }
+    else{
+        wallet->load(read);
+    }
+    read.close();
     run = true;
     while(run) {
         displayMainMenu(*wallet, write);
     }
-    write.close();
 }
